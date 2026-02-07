@@ -1,0 +1,53 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# SQL scripts (testing/development only)
+drop-old-schema.sql
+check-and-fix-auth-trigger.sql
+fix-billing-expiration.sql
+restore-plans.sql
+update-stripe-prices.sql
+supabase-schema.sql
+supabase-schema-v2.sql
+
+# Internal documentation (development notes)
+DASHBOARD-HANDOFF.md
+REQUIREMENTS_CHECK.md
+PROJECT_STATUS.md
+IMPLEMENTATION_GUIDE.md
+TESTING-GUIDE.md
+TESTING-CHECKLIST.md
+QUICK-TEST.txt
+howtorunthepage.md
+
+# Test files
+test-webhook.ts
+get-latest-session.ts
+
+# Dependencies
+node_modules
+dist
+dist-ssr
+*.local
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
