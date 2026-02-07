@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+.vercel/
+.output/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+.cache/
+
+# SQL scripts (development/testing only)
+**/*-schema*.sql
+**/drop-*.sql
+**/fix-*.sql
+**/restore-*.sql
+**/update-*.sql
+**/reset-*.sql
+**/check-*.sql
+
+# Internal documentation (development notes - keep README.md only)
+**/*HANDOFF*.md
+**/*REQUIREMENTS*.md
+**/*PROJECT_STATUS*.md
+**/*IMPLEMENTATION*.md
+**/*TESTING*.md
+**/*QUICK-START*.md
+**/*SETUP*.md
+**/*GUIDE*.md
+**/*STRUCTURE*.md
+**/*howtorun*.md
+**/*QUICK-TEST*.txt
+
+# Test files
+**/test-*.ts
+**/get-latest-*.ts
+
+# Keep important docs
+!README.md
+!**/README.md
+!STRIPE_SETUP.md
+!SUPABASE_SETUP.md
+!QUICKSTART.md
