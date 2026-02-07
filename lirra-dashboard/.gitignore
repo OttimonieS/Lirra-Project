@@ -10,6 +10,9 @@ lerna-debug.log*
 # SQL scripts (testing/development only)
 reset-test-key.sql
 check-and-fix-auth-trigger.sql
+fix-profiles-id.sql
+fix-profiles-table.sql
+supabase-schema.sql
 
 # Internal documentation (development notes)
 QUICK-START.md
@@ -19,6 +22,10 @@ IMPLEMENTATION_COMPLETE.md
 NEW-AUTH-FLOW.md
 PROJECT_GUIDE.md
 STRUCTURE_SUMMARY.md
+
+# Backup files
+**/*.backup.tsx
+**/*.backup2.tsx
 
 # Dependencies
 node_modules
