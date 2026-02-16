@@ -1,8 +1,6 @@
-import express from "express";
+import express, { type Request, type Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
-// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -10,13 +8,9 @@ const PORT = 3002;
 
 app.use(cors());
 app.use(express.json());
-
-// API Routes
-app.post("/api/create-checkout", async (req, res) => {
+app.post("/api/create-checkout", async (req: Request, res: Response) => {
   try {
     console.log("Received checkout request:", req.body);
-
-    // Dynamic import to avoid module-level initialization issues
     const { createCheckout } = await import("./api/create-checkout.js");
     const result = await createCheckout(req.body);
     res.json(result);
@@ -26,7 +20,7 @@ app.post("/api/create-checkout", async (req, res) => {
   }
 });
 
-app.get("/api/get-plans", async (req, res) => {
+app.get("/api/get-plans", async (req: Request, res: Response) => {
   try {
     const { createClient } = await import("@supabase/supabase-js");
     const supabase = createClient(
@@ -47,7 +41,7 @@ app.get("/api/get-plans", async (req, res) => {
   }
 });
 
-app.get("/api/get-credential-key", async (req, res) => {
+app.get("/api/get-credential-key", async (req: Request, res: Response) => {
   try {
     const { session_id } = req.query;
     console.log(`📥 Get credential key request for session: ${session_id}`);
@@ -75,8 +69,6 @@ app.get("/api/get-credential-key", async (req, res) => {
     }
 
     console.log(`📊 Session status: ${session.status}`);
-
-    // If payment not completed yet, check Stripe and auto-generate key
     if (session.status !== "completed") {
       console.log("🔄 Payment not completed in DB, checking Stripe...");
 
@@ -93,8 +85,6 @@ app.get("/api/get-credential-key", async (req, res) => {
 
       if (stripeSession.payment_status === "paid") {
         console.log("✅ Payment confirmed! Auto-generating credential key...");
-
-        // Generate credential key automatically
         const { data: keyData, error: keyError } = await supabase.rpc(
           "create_credential_key",
           {
@@ -110,8 +100,6 @@ app.get("/api/get-credential-key", async (req, res) => {
           console.error("❌ Error creating key:", keyError);
           return res.status(500).json({ error: keyError.message });
         }
-
-        // Update session status
         await supabase
           .from("checkout_sessions")
           .update({
@@ -121,8 +109,6 @@ app.get("/api/get-credential-key", async (req, res) => {
           .eq("stripe_session_id", session_id);
 
         console.log("🎉 Key created:", keyData.credential_key);
-
-        // Return the newly created key
         const { data: newKey } = await supabase
           .from("credential_keys")
           .select("*, plans(name)")
@@ -169,7 +155,7 @@ app.get("/api/get-credential-key", async (req, res) => {
   }
 });
 
-app.post("/api/stripe-webhook-v2", async (req, res) => {
+app.post("/api/stripe-webhook-v2", async (req: Request, res: Response) => {
   try {
     const Stripe = (await import("stripe")).default;
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -238,8 +224,6 @@ app.listen(PORT, () => {
   console.log("  GET  /api/get-plans");
   console.log("  POST /api/stripe-webhook-v2");
 });
-
-// Handle uncaught errors
 process.on("uncaughtException", (error) => {
   console.error("Uncaught Exception:", error);
 });

@@ -19,8 +19,6 @@ const Pricing = () => {
   const [email, setEmail] = useState("");
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-
-  // Load plans from database
   useEffect(() => {
     loadPlans();
   }, []);
@@ -39,12 +37,9 @@ const Pricing = () => {
 
   const handleGetStarted = (plan: Plan) => {
     if (plan.name === "Enterprise") {
-      // Redirect to contact/support for Enterprise
       window.location.href = "/support";
       return;
     }
-
-    // Show email modal for payment
     setSelectedPlan(plan);
     setShowEmailModal(true);
   };
@@ -54,8 +49,6 @@ const Pricing = () => {
 
     try {
       setLoading(selectedPlan.name);
-
-      // Create checkout session
       const response = await fetch(
         "http://localhost:3002/api/create-checkout",
         {
@@ -72,7 +65,6 @@ const Pricing = () => {
       const data = await response.json();
 
       if (data.url) {
-        // Redirect to Stripe Checkout
         window.location.href = data.url;
       }
     } catch (err) {
@@ -107,9 +99,7 @@ const Pricing = () => {
               start.
             </p>
           </div>
-
-          {/* Billing Toggle */}
-          <div className="flex justify-center mb-12">
+<div className="flex justify-center mb-12">
             <div className="bg-white rounded-full p-1 inline-flex shadow-sm">
               <button
                 onClick={() => setBillingCycle("monthly")}
@@ -219,9 +209,7 @@ const Pricing = () => {
           </div>
         </div>
       </section>
-
-      {/* Email Modal */}
-      {showEmailModal && selectedPlan && (
+{showEmailModal && selectedPlan && (
         <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl p-8 max-w-md w-full shadow-2xl border border-gray-200">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">

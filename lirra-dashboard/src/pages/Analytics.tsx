@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { JSX } from "react";
 import {
   TrendingUp,
   TrendingDown,
@@ -55,7 +56,7 @@ const Analytics = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  // Key Metrics
+ 
   const metrics: MetricCard[] = [
     {
       label: "Total Revenue",
@@ -87,7 +88,6 @@ const Analytics = () => {
     },
   ];
 
-  // Sales by Category
   const categorySales: CategorySales[] = [
     {
       category: "Baked Goods",
@@ -100,7 +100,7 @@ const Analytics = () => {
     { category: "Snacks", revenue: 5800, percentage: 12, color: "#f59e0b" },
   ];
 
-  // Top Products Performance
+ 
   const topProducts: ProductPerformance[] = [
     {
       name: "Artisan Croissant",
@@ -144,7 +144,7 @@ const Analytics = () => {
     },
   ];
 
-  // Customer Insights
+ 
   const customerInsights: CustomerInsight[] = [
     {
       metric: "Avg Order Value",
@@ -172,7 +172,7 @@ const Analytics = () => {
     },
   ];
 
-  // Weekly Performance
+ 
   const weeklyData = [
     { day: "Mon", sales: 5200, orders: 156, avgOrder: 33 },
     { day: "Tue", sales: 6100, orders: 178, avgOrder: 34 },
@@ -185,7 +185,7 @@ const Analytics = () => {
 
   const maxSales = Math.max(...weeklyData.map((d) => d.sales));
 
-  // Peak Hours
+ 
   const peakHours = [
     { time: "6-8 AM", orders: 45, revenue: 1580 },
     { time: "9-11 AM", orders: 78, revenue: 2940 },
@@ -236,8 +236,7 @@ const Analytics = () => {
   return (
     <div className="p-6 ml-0 md:ml-64 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Business Analytics
@@ -264,9 +263,7 @@ const Analytics = () => {
             </button>
           </div>
         </div>
-
-        {/* Filters Panel */}
-        {showFilters && (
+{showFilters && (
           <div className="mb-6 p-4 bg-white rounded-xl shadow-sm border border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
@@ -314,9 +311,7 @@ const Analytics = () => {
             </div>
           </div>
         )}
-
-        {/* Key Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, index) => {
             const Icon = getIcon(metric.icon);
             const TrendIcon =
@@ -353,8 +348,7 @@ const Analytics = () => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          {/* Weekly Sales Chart */}
-          <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-gray-900">
                 <BarChart3 className="inline mr-2" size={20} />
@@ -385,8 +379,7 @@ const Analytics = () => {
                       className="w-full flex justify-center items-end gap-1 mb-2"
                       style={{ height: "300px" }}
                     >
-                      {/* Sales Bar */}
-                      <div className="relative group flex flex-col justify-end w-full">
+<div className="relative group flex flex-col justify-end w-full">
                         <div
                           className="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg hover:from-blue-600 hover:to-blue-500 transition-all cursor-pointer"
                           style={{ height: `${salesHeight}%` }}
@@ -436,17 +429,14 @@ const Analytics = () => {
               </div>
             </div>
           </div>
-
-          {/* Category Sales Breakdown */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-6">
               <PieChart className="inline mr-2" size={20} />
               Sales by Category
             </h3>
 
             <div className="mb-6">
-              {/* Pie Chart Visualization */}
-              <div className="relative w-48 h-48 mx-auto mb-4">
+<div className="relative w-48 h-48 mx-auto mb-4">
                 <svg viewBox="0 0 100 100" className="transform -rotate-90">
                   {categorySales.reduce((acc, cat, index) => {
                     const prevPercentage = categorySales
@@ -517,11 +507,8 @@ const Analytics = () => {
             </div>
           </div>
         </div>
-
-        {/* Top Products & Customer Insights */}
-        <div className="grid lg:grid-cols-2 gap-6 mb-8">
-          {/* Top Products Performance */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="grid lg:grid-cols-2 gap-6 mb-8">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-6">
               <TrendingUp className="inline mr-2" size={20} />
               Top Performing Products
@@ -567,9 +554,7 @@ const Analytics = () => {
               ))}
             </div>
           </div>
-
-          {/* Customer Insights */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-6">
               <Users className="inline mr-2" size={20} />
               Customer Insights
@@ -606,9 +591,7 @@ const Analytics = () => {
                 </div>
               ))}
             </div>
-
-            {/* Customer Satisfaction Gauge */}
-            <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
+<div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-sm font-semibold text-gray-700">
                   Overall Satisfaction
@@ -627,9 +610,7 @@ const Analytics = () => {
             </div>
           </div>
         </div>
-
-        {/* Peak Hours Analysis */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 mb-6">
             <Clock className="inline mr-2" size={20} />
             Peak Business Hours

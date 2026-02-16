@@ -6,7 +6,6 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 export const getCredentialKey = async (sessionId: string) => {
   try {
-    // Get checkout session from database using Stripe session ID
     const { data: checkoutSession, error: sessionError } = await supabase
       .from("checkout_sessions")
       .select("*, credential_keys(*), plans(*)")
@@ -20,8 +19,6 @@ export const getCredentialKey = async (sessionId: string) => {
     if (checkoutSession.status !== "completed") {
       throw new Error("Payment not completed yet");
     }
-
-    // Get the credential key
     const { data: credentialKey, error: keyError } = await supabase
       .from("credential_keys")
       .select("*, plans(*)")

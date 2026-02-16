@@ -19,8 +19,7 @@ const Settings = () => {
         </div>
 
         <div className="grid lg:grid-cols-4 gap-6">
-          {/* Settings Navigation */}
-          <div className="lg:col-span-1">
+<div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               {settingsNavItems.map((item) => {
                 const Icon = item.icon;
@@ -40,11 +39,8 @@ const Settings = () => {
               })}
             </div>
           </div>
-
-          {/* Settings Content */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Business Profile */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="lg:col-span-3 space-y-6">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">
                 Business Profile
               </h3>
@@ -109,9 +105,7 @@ const Settings = () => {
                 Save Changes
               </button>
             </div>
-
-            {/* Staff & Roles */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-semibold text-gray-900">
                   Staff & Permissions
@@ -169,9 +163,7 @@ const Settings = () => {
                 </table>
               </div>
             </div>
-
-            {/* Marketplace Integrations */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">
                 Marketplace Integrations
               </h3>
@@ -213,9 +205,7 @@ const Settings = () => {
                 ))}
               </div>
             </div>
-
-            {/* Data Export */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">
                 Export Data
               </h3>
@@ -239,9 +229,7 @@ const Settings = () => {
                 </button>
               </div>
             </div>
-
-            {/* Subscription */}
-            <div className="bg-gradient-to-br from-primary to-purple-600 p-6 rounded-xl text-white">
+<div className="bg-gradient-to-br from-primary to-purple-600 p-6 rounded-xl text-white">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-lg font-semibold mb-2">

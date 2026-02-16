@@ -52,8 +52,7 @@ const OnboardingPage = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-6 py-12">
       <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
-        {/* Progress Bar */}
-        <div className="mb-8">
+<div className="mb-8">
           <div className="flex justify-between mb-2">
             <span className="text-sm font-medium text-gray-700">
               Step {step} of 3
@@ -69,9 +68,7 @@ const OnboardingPage = ({ onComplete }: { onComplete: () => void }) => {
             ></div>
           </div>
         </div>
-
-        {/* Step 1: Business Info */}
-        {step === 1 && (
+{step === 1 && (
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
               Let's set up your business
@@ -124,9 +121,7 @@ const OnboardingPage = ({ onComplete }: { onComplete: () => void }) => {
             </div>
           </div>
         )}
-
-        {/* Step 2: Help Preferences */}
-        {step === 2 && (
+{step === 2 && (
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
               What do you need help with?
@@ -157,9 +152,7 @@ const OnboardingPage = ({ onComplete }: { onComplete: () => void }) => {
             </div>
           </div>
         )}
-
-        {/* Step 3: Integrations */}
-        {step === 3 && (
+{step === 3 && (
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
               Connect your stores
@@ -214,9 +207,7 @@ const OnboardingPage = ({ onComplete }: { onComplete: () => void }) => {
             </div>
           </div>
         )}
-
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-8 pt-6 border-t">
+<div className="flex justify-between mt-8 pt-6 border-t">
           {step > 1 && (
             <button
               onClick={() => setStep(step - 1)}

@@ -29,7 +29,6 @@ const Dashboard = () => {
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        // Check if user is logged in
         const {
           data: { user },
           error: authError,
@@ -39,8 +38,6 @@ const Dashboard = () => {
           navigate("/signin");
           return;
         }
-
-        // Load profile
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("*")
@@ -49,8 +46,6 @@ const Dashboard = () => {
 
         if (profileError) throw profileError;
         setProfile(profileData);
-
-        // Load subscription
         const { data: subData, error: subError } = await supabase
           .from("subscriptions")
           .select(
@@ -103,8 +98,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-light-gray">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
+<header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
           <button
@@ -117,8 +111,7 @@ const Dashboard = () => {
       </header>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-        {/* Welcome Section */}
-        <div className="bg-white rounded-xl p-8 shadow-sm mb-8">
+<div className="bg-white rounded-xl p-8 shadow-sm mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             Welcome back, {profile?.full_name || "User"}!
           </h2>
@@ -127,9 +120,7 @@ const Dashboard = () => {
             {profile?.email}
           </p>
         </div>
-
-        {/* Trial Banner */}
-        {isOnTrial && (
+{isOnTrial && (
           <div className="bg-secondary bg-opacity-10 border border-secondary rounded-xl p-6 mb-8">
             <div className="flex items-start">
               <svg
@@ -159,8 +150,7 @@ const Dashboard = () => {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Subscription Info */}
-          <div className="bg-white rounded-xl p-8 shadow-sm">
+<div className="bg-white rounded-xl p-8 shadow-sm">
             <h3 className="text-xl font-bold text-gray-900 mb-6">
               Subscription
             </h3>
@@ -222,9 +212,7 @@ const Dashboard = () => {
               </div>
             )}
           </div>
-
-          {/* Quick Actions */}
-          <div className="bg-white rounded-xl p-8 shadow-sm">
+<div className="bg-white rounded-xl p-8 shadow-sm">
             <h3 className="text-xl font-bold text-gray-900 mb-6">
               Quick Actions
             </h3>
@@ -292,9 +280,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
-        {/* Usage Stats (Placeholder) */}
-        <div className="mt-8 bg-white rounded-xl p-8 shadow-sm">
+<div className="mt-8 bg-white rounded-xl p-8 shadow-sm">
           <h3 className="text-xl font-bold text-gray-900 mb-6">
             Usage Overview
           </h3>

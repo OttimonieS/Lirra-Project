@@ -1,10 +1,3 @@
-/**
- * Link Profile to Auth User API
- * POST /api/auth/link-profile
- *
- * Links existing profile (created during redemption) with Supabase auth user
- */
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 
@@ -19,7 +12,6 @@ interface LinkProfileRequest {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -45,7 +37,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Update profile with auth_user_id and mark password as set
     const { data, error } = await supabase
       .from("profiles")
       .update({

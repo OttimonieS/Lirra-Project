@@ -8,8 +8,6 @@ import type { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
-
-// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -17,14 +15,10 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-
-// Create Supabase client
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
-
-// Logging middleware
 app.use((req: Request, _res: Response, next: NextFunction) => {
   console.log(`${req.method} ${req.path}`);
   next();
@@ -44,8 +38,6 @@ interface LinkProfileRequest {
   email: string;
   auth_user_id: string;
 }
-
-// Redeem API
 app.post(
   "/api/auth/redeem",
   async (req: Request<object, object, RedeemRequest>, res: Response) => {
@@ -61,7 +53,6 @@ app.post(
     }
 
     try {
-      // Step 1: Validate credential key
       console.log("🔍 Looking for key:", credential_key);
 
       const { data: keyData, error: keyError } = await supabase
@@ -88,24 +79,18 @@ app.post(
           details: keyError?.message || "Key not found in database",
         });
       }
-
-      // Step 2: Check if already redeemed
       if (keyData.is_redeemed) {
         return res.status(400).json({
           success: false,
           error: "This credential key has already been redeemed",
         });
       }
-
-      // Step 3: Verify email matches
       if (keyData.email.toLowerCase() !== email.toLowerCase()) {
         return res.status(403).json({
           success: false,
           error: "Email does not match the credential key",
         });
       }
-
-      // Step 4: Check expiration
       const expiresAt = new Date(keyData.expires_at);
       if (expiresAt < new Date()) {
         return res.status(400).json({
@@ -113,8 +98,6 @@ app.post(
           error: "Credential key has expired",
         });
       }
-
-      // Step 5: Check if user already has a profile
       let hasPassword = false;
       if (user_id) {
         const { data: existingProfile } = await supabase
@@ -125,9 +108,6 @@ app.post(
 
         hasPassword = existingProfile?.password_set || false;
       }
-
-      // Step 6: Store credential key data in temporary storage for setup-password page
-      // We DON'T mark as redeemed yet - that happens in link-profile after password is set
       console.log("Key validated successfully");
 
       return res.status(200).json({
@@ -156,8 +136,6 @@ app.post(
     }
   }
 );
-
-// Link Profile API - Creates profile after user sets password
 app.post(
   "/api/auth/link-profile",
   async (req: Request<object, object, LinkProfileRequest>, res: Response) => {
@@ -179,11 +157,10 @@ app.post(
     }
 
     try {
-      // Step 1: Create the profile with the auth user's ID
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .insert({
-          id: auth_user_id, // Use auth user ID as profile ID
+          id: auth_user_id,
           email: email,
           plan_id: plan_id,
           credential_key_id: credential_key_id,
@@ -204,8 +181,6 @@ app.post(
           details: profileError.message,
         });
       }
-
-      // Step 2: Mark credential key as redeemed
       const { error: updateError } = await supabase
         .from("credential_keys")
         .update({
@@ -217,7 +192,6 @@ app.post(
 
       if (updateError) {
         console.error("Error updating credential key:", updateError);
-        // Don't fail if this step fails - profile is already created
       }
 
       console.log("✅ Profile created and linked successfully");
@@ -235,14 +209,10 @@ app.post(
     }
   }
 );
-
-// Health check
-app.get("/api/health", (req: Request, res: Response) => {
+app.get("/api/health", (_req: Request, res: Response) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
-
-// Debug endpoint - check credential keys
-app.get("/api/debug/keys", async (req: Request, res: Response) => {
+app.get("/api/debug/keys", async (_req: Request, res: Response) => {
   try {
     const { data, error } = await supabase
       .from("credential_keys")

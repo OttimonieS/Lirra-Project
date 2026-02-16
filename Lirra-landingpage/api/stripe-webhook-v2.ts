@@ -21,8 +21,6 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
           console.error("Missing metadata in checkout session");
           return;
         }
-
-        // Call the database function to create credential key
         const { data: keyData, error: keyError } = await supabase.rpc(
           "create_credential_key",
           {
@@ -38,8 +36,6 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
           console.error("Error creating credential key:", keyError);
           throw keyError;
         }
-
-        // Update checkout session with credential key ID and mark as completed
         await supabase
           .from("checkout_sessions")
           .update({
@@ -52,10 +48,6 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
         console.log("📧 For email:", email);
         console.log("📦 Plan:", keyData.plan_name);
         console.log("💳 Billing cycle:", billingCycle);
-
-        // TODO: Send email with credential key
-        // This should be implemented to send the key to the customer
-        // await sendCredentialKeyEmail(email, keyData.credential_key, keyData.plan_name);
 
         break;
       }
@@ -78,9 +70,6 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
       case "payment_intent.payment_failed": {
         const paymentIntent = event.data.object;
         console.log("❌ Payment failed:", paymentIntent.id);
-
-        // TODO: Send notification about failed payment
-        // You might want to update checkout session status or send an email
         break;
       }
 

@@ -4,8 +4,8 @@ export interface Plan {
   description: string;
   targetAudience: string;
   price: {
-    monthly: number; // USD
-    yearly: number; // USD
+    monthly: number;
+    yearly: number;
   };
   billingCycle: "monthly" | "yearly";
   features: string[];
@@ -25,8 +25,8 @@ export const pricingPlans: Plan[] = [
     description: "Small single owner shops",
     targetAudience: "Food stalls, small sellers, home business",
     price: {
-      monthly: 7, // USD (~100k IDR)
-      yearly: 70, // USD (2 months free)
+      monthly: 7,
+      yearly: 70,
     },
     billingCycle: "monthly",
     features: [
@@ -39,7 +39,7 @@ export const pricingPlans: Plan[] = [
     ],
     limits: {
       stores: 1,
-      photos: "unlimited", // single file at a time
+      photos: "unlimited",
       apiCalls: 1000,
       users: 1,
     },
@@ -50,8 +50,8 @@ export const pricingPlans: Plan[] = [
     description: "Growing UMKM with 1-3 staff",
     targetAudience: "Boutiques, cafes, online sellers on Shopify and Tokopedia",
     price: {
-      monthly: 20, // USD (~300k IDR)
-      yearly: 200, // USD (2 months free)
+      monthly: 20,
+      yearly: 200,
     },
     billingCycle: "monthly",
     recommended: true,
@@ -77,8 +77,8 @@ export const pricingPlans: Plan[] = [
     description: "Medium scale stores or agencies",
     targetAudience: "Agencies, multi-outlet brands, large ecommerce sellers",
     price: {
-      monthly: 49, // USD (~750k IDR)
-      yearly: 490, // USD (2 months free)
+      monthly: 49,
+      yearly: 490,
     },
     billingCycle: "monthly",
     features: [

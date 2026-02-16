@@ -53,8 +53,6 @@ const SubscriptionStatus = () => {
         setVerifying(false);
         return;
       }
-
-      // Verify password by attempting sign in
       const { error } = await auth.signIn(userData.user.email, password);
 
       if (error) {
@@ -62,8 +60,6 @@ const SubscriptionStatus = () => {
         setVerifying(false);
         return;
       }
-
-      // Password correct - show key
       setShowKey(true);
       setShowPasswordModal(false);
       setPassword("");
@@ -238,9 +234,7 @@ const SubscriptionStatus = () => {
           </a>
         </div>
       )}
-
-      {/* Password Verification Modal */}
-      {showPasswordModal && (
+{showPasswordModal && (
         <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">

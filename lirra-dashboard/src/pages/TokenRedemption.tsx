@@ -17,7 +17,6 @@ const TokenRedemption = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // Check if user is already authenticated
     auth.getUser().then(({ data }) => {
       if (data.user && emailFromUrl) {
         setFormData((prev) => ({
@@ -34,10 +33,7 @@ const TokenRedemption = () => {
     setLoading(true);
 
     try {
-      // Get current user
       const { data: userData } = await auth.getUser();
-
-      // Call redeem API
       const response = await fetch("/api/auth/redeem", {
         method: "POST",
         headers: {
@@ -57,18 +53,11 @@ const TokenRedemption = () => {
         setLoading(false);
         return;
       }
-
-      // Success!
       setSuccess(true);
-
-      // Store plan details and key data in session
       sessionStorage.setItem("lirra_plan", JSON.stringify(data.planDetails));
       sessionStorage.setItem("lirra_keyData", JSON.stringify(data.keyData));
-
-      // Redirect based on password status
       setTimeout(() => {
         if (!data.hasPassword) {
-          // First time - redirect to password setup with key data
           const params = new URLSearchParams({
             email: formData.email,
             credential_key_id: data.keyData.credential_key_id,
@@ -78,7 +67,6 @@ const TokenRedemption = () => {
           });
           navigate(`/setup-password?${params.toString()}`);
         } else {
-          // Already has password - redirect to dashboard
           navigate("/dashboard");
         }
       }, 2000);
@@ -111,8 +99,7 @@ const TokenRedemption = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center px-6 py-12">
       <div className="max-w-md w-full">
-        {/* Logo/Branding */}
-        <div className="text-center mb-8">
+<div className="text-center mb-8">
           <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
             <Key className="text-primary" size={32} />
           </div>
@@ -123,9 +110,7 @@ const TokenRedemption = () => {
             Enter your key from the payment confirmation
           </p>
         </div>
-
-        {/* Redemption Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+<div className="bg-white rounded-2xl shadow-2xl p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -200,9 +185,7 @@ const TokenRedemption = () => {
               )}
             </button>
           </form>
-
-          {/* Help Section */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
+<div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-sm text-gray-600 text-center mb-3">Need help?</p>
             <div className="space-y-2 text-center text-sm">
               <p className="text-gray-500"></p>

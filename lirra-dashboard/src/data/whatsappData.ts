@@ -1,6 +1,4 @@
 import type { WhatsAppMessage } from "../types";
-
-// Types
 export interface WorkingHours {
   day: string;
   hours: string;
@@ -17,8 +15,6 @@ export interface ConnectionStatus {
   phoneNumber: string;
   activeSince: string;
 }
-
-// Data
 export const initialMessages: WhatsAppMessage[] = [
   {
     id: "1",

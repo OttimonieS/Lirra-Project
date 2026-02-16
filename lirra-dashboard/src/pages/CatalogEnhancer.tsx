@@ -60,8 +60,6 @@ const CatalogEnhancer = () => {
     customWidth: 1080,
     customHeight: 1080,
   });
-
-  // API Keys
   const REMOVE_BG_API_KEY = "mUamGxMMbwCyM9VtxnPyxpwp";
 
   const showSuccessToast = (message: string) => {
@@ -136,8 +134,6 @@ const CatalogEnhancer = () => {
         const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
-
-        // Apply resize based on export size
         if (settings.exportSize === "1:1") {
           width = height = Math.min(width, height);
         } else if (settings.exportSize === "4:5") {
@@ -166,8 +162,6 @@ const CatalogEnhancer = () => {
           reject(new Error("Failed to get canvas context"));
           return;
         }
-
-        // Apply background
         if (settings.backgroundStyle !== "transparent") {
           if (settings.backgroundStyle === "white") {
             ctx.fillStyle = "#ffffff";
@@ -181,13 +175,9 @@ const CatalogEnhancer = () => {
           }
           ctx.fillRect(0, 0, width, height);
         }
-
-        // Draw image centered
         const scale = Math.min(width / img.width, height / img.height);
         const x = (width - img.width * scale) / 2;
         const y = (height - img.height * scale) / 2;
-
-        // Apply enhancements via canvas filters
         const filters = [];
         if (settings.enhanceLighting)
           filters.push("brightness(1.1) contrast(1.05)");
@@ -218,13 +208,9 @@ const CatalogEnhancer = () => {
 
     try {
       let processedUrl = photo.originalUrl;
-
-      // Step 1: Remove background if enabled
       if (settings.removeBackground) {
         processedUrl = await removeBackground(photo.originalUrl);
       }
-
-      // Step 2: Apply client-side enhancements (lighting, color, sizing, background)
       const enhancedUrl = await applyClientSideEnhancements(processedUrl);
 
       setPhotos((prev) =>
@@ -336,8 +322,7 @@ const CatalogEnhancer = () => {
   return (
     <div className="p-6 ml-0 md:ml-64">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
+<div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -370,9 +355,7 @@ const CatalogEnhancer = () => {
             </div>
           </div>
         </div>
-
-        {/* Upload Zone */}
-        <div
+<div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
           className="bg-white p-8 rounded-xl shadow-sm border-2 border-dashed border-gray-300 mb-6 hover:border-primary hover:bg-primary/5 transition-all cursor-pointer"
@@ -401,8 +384,7 @@ const CatalogEnhancer = () => {
         </div>
 
         <div className="grid lg:grid-cols-4 gap-6">
-          {/* Enhancement Options Panel */}
-          {showSettings && (
+{showSettings && (
             <div className="lg:col-span-1">
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 space-y-6">
                 <div>
@@ -595,9 +577,7 @@ const CatalogEnhancer = () => {
               </div>
             </div>
           )}
-
-          {/* Photo Gallery */}
-          <div className={showSettings ? "lg:col-span-3" : "lg:col-span-4"}>
+<div className={showSettings ? "lg:col-span-3" : "lg:col-span-4"}>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="font-semibold text-gray-900">
@@ -713,9 +693,7 @@ const CatalogEnhancer = () => {
             </div>
           </div>
         </div>
-
-        {/* Preview Modal */}
-        {showPreview && selectedPhoto && (
+{showPreview && selectedPhoto && (
           <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-4xl w-full p-6 max-h-[90vh] overflow-auto">
               <div className="flex justify-between items-center mb-6">
@@ -778,9 +756,7 @@ const CatalogEnhancer = () => {
             </div>
           </div>
         )}
-
-        {/* Toast Notification */}
-        {showToast && (
+{showToast && (
           <div className="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 z-50 animate-slide-up">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path

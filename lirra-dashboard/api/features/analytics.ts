@@ -1,8 +1,3 @@
-/**
- * Analytics API
- * Provides sales data, top products, busiest hours, and operational costs
- */
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 
@@ -11,23 +6,18 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY!
 );
 
-// ==================== Get Sales Data ====================
-// GET /api/features/analytics/sales?userId=xxx&storeId=xxx&period=xxx
-
 export async function getSalesData(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { userId, storeId, period, startDate, endDate } = req.query;
-  // period: 'today', 'week', 'month', 'year', 'custom'
 
   if (!userId) {
     return res.status(400).json({ error: "userId is required" });
   }
 
   try {
-    // Calculate date range
     const now = new Date();
     let queryStartDate: Date;
 
@@ -55,8 +45,6 @@ export async function getSalesData(req: VercelRequest, res: VercelResponse) {
 
     const queryEndDate =
       period === "custom" && endDate ? new Date(endDate as string) : new Date();
-
-    // Fetch transactions (income only)
     let query = supabase
       .from("transactions")
       .select("*")
@@ -75,18 +63,13 @@ export async function getSalesData(req: VercelRequest, res: VercelResponse) {
       console.error("Get sales data error:", error);
       return res.status(500).json({ error: "Failed to fetch sales data" });
     }
-
-    // Calculate metrics
     const totalSales = data.reduce(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (sum: number, t: any) => sum + parseFloat(t.amount),
       0
     );
     const transactionCount = data.length;
     const averageTransaction =
       transactionCount > 0 ? totalSales / transactionCount : 0;
-
-    // Group by date for chart
     const salesByDate: Record<string, number> = {};
     data.forEach((t) => {
       const date = new Date(t.transaction_date).toISOString().split("T")[0];
@@ -116,9 +99,6 @@ export async function getSalesData(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Get Top Products ====================
-// GET /api/features/analytics/top-products?userId=xxx&storeId=xxx&limit=10
-
 export async function getTopProducts(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -131,13 +111,10 @@ export async function getTopProducts(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Calculate date range
     const now = new Date();
     const startDate = new Date(
       now.setMonth(now.getMonth() - (period === "year" ? 12 : 1))
     );
-
-    // Fetch product sales from order_items or product_catalog
     let query = supabase
       .from("order_items")
       .select("product_name, quantity, price, created_at")
@@ -154,12 +131,8 @@ export async function getTopProducts(req: VercelRequest, res: VercelResponse) {
       console.error("Get top products error:", error);
       return res.status(500).json({ error: "Failed to fetch top products" });
     }
-
-    // Aggregate by product
     const productStats: Record<string, { quantity: number; revenue: number }> =
       {};
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.forEach((item: any) => {
       const name = item.product_name;
       if (!productStats[name]) {
@@ -168,8 +141,6 @@ export async function getTopProducts(req: VercelRequest, res: VercelResponse) {
       productStats[name].quantity += item.quantity;
       productStats[name].revenue += item.quantity * parseFloat(item.price);
     });
-
-    // Convert to array and sort by quantity
     const topProducts = Object.entries(productStats)
       .map(([name, stats]) => ({
         productName: name,
@@ -189,9 +160,6 @@ export async function getTopProducts(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Get Busiest Hours ====================
-// GET /api/features/analytics/busiest-hours?userId=xxx&storeId=xxx
-
 export async function getBusiestHours(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -204,7 +172,6 @@ export async function getBusiestHours(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Fetch last 30 days of transactions
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - 30);
 
@@ -225,27 +192,19 @@ export async function getBusiestHours(req: VercelRequest, res: VercelResponse) {
       console.error("Get busiest hours error:", error);
       return res.status(500).json({ error: "Failed to fetch data" });
     }
-
-    // Group by hour
     const hourCounts: Record<number, number> = {};
     for (let i = 0; i < 24; i++) {
       hourCounts[i] = 0;
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.forEach((t: any) => {
       const hour = new Date(t.transaction_date).getHours();
       hourCounts[hour]++;
     });
-
-    // Convert to array
     const hourlyData = Object.entries(hourCounts).map(([hour, count]) => ({
       hour: parseInt(hour),
       hourLabel: `${hour.toString().padStart(2, "0")}:00`,
       transactions: count,
     }));
-
-    // Find peak hours
     const sortedHours = [...hourlyData].sort(
       (a, b) => b.transactions - a.transactions
     );
@@ -262,9 +221,6 @@ export async function getBusiestHours(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Get Operational Cost Stats ====================
-// GET /api/features/analytics/operational-costs?userId=xxx&storeId=xxx&period=month
-
 export async function getOperationalCosts(
   req: VercelRequest,
   res: VercelResponse
@@ -280,13 +236,10 @@ export async function getOperationalCosts(
   }
 
   try {
-    // Calculate date range
     const now = new Date();
     const startDate = new Date(
       now.setMonth(now.getMonth() - (period === "year" ? 12 : 1))
     );
-
-    // Fetch expenses
     let query = supabase
       .from("transactions")
       .select("*")
@@ -304,23 +257,16 @@ export async function getOperationalCosts(
       console.error("Get operational costs error:", error);
       return res.status(500).json({ error: "Failed to fetch costs" });
     }
-
-    // Calculate total
     const totalCosts = data.reduce(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (sum: number, t: any) => sum + parseFloat(t.amount),
       0
     );
-
-    // Group by category
     const costsByCategory: Record<string, number> = {};
     data.forEach((t) => {
       const category = t.category || "Uncategorized";
       costsByCategory[category] =
         (costsByCategory[category] || 0) + parseFloat(t.amount);
     });
-
-    // Convert to array for chart
     const categoryData = Object.entries(costsByCategory)
       .map(([category, amount]) => ({
         category,
@@ -328,8 +274,6 @@ export async function getOperationalCosts(
         percentage: (amount / totalCosts) * 100,
       }))
       .sort((a, b) => b.amount - a.amount);
-
-    // Group by month
     const monthlyData: Record<string, number> = {};
     data.forEach((t) => {
       const month = new Date(t.transaction_date).toISOString().substring(0, 7);
@@ -353,9 +297,6 @@ export async function getOperationalCosts(
   }
 }
 
-// ==================== Get Dashboard Summary ====================
-// GET /api/features/analytics/summary?userId=xxx&storeId=xxx
-
 export async function getDashboardSummary(
   req: VercelRequest,
   res: VercelResponse
@@ -371,16 +312,11 @@ export async function getDashboardSummary(
   }
 
   try {
-    // Get today's data
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
-    // Get this month's data
     const thisMonth = new Date();
     thisMonth.setDate(1);
     thisMonth.setHours(0, 0, 0, 0);
-
-    // Fetch transactions
     let query = supabase.from("transactions").select("*").eq("user_id", userId);
 
     if (storeId) {
@@ -393,8 +329,6 @@ export async function getDashboardSummary(
       console.error("Get dashboard summary error:", error);
       return res.status(500).json({ error: "Failed to fetch summary" });
     }
-
-    // Calculate metrics
     const todayTransactions = data.filter(
       (t) => new Date(t.transaction_date) >= today
     );

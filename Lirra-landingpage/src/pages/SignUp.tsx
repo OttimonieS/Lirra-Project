@@ -41,7 +41,6 @@ const SignUp = () => {
           setMessage(
             "Account created successfully! Please check your email to verify your account."
           );
-          // Redirect to sign in after 2 seconds
           setTimeout(() => {
             navigate("/signin");
           }, 2000);

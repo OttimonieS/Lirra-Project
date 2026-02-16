@@ -1,8 +1,3 @@
-/**
- * WhatsApp AI Reply API
- * Handles WhatsApp integration, product catalog, AI replies, and chat logs
- */
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 
@@ -10,9 +5,6 @@ const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 );
-
-// ==================== Connect WhatsApp ====================
-// POST /api/features/whatsapp/connect
 
 export async function connectWhatsApp(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -28,8 +20,6 @@ export async function connectWhatsApp(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // In production, integrate with WhatsApp Business API
-    // Services: Twilio, MessageBird, or official WhatsApp Cloud API
 
     const { data, error } = await supabase
       .from("whatsapp_connections")
@@ -61,16 +51,12 @@ export async function connectWhatsApp(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Store Product Catalog ====================
-// POST /api/features/whatsapp/catalog
-
 export async function updateCatalog(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { userId, storeId, products } = req.body;
-  // products: array of { name, price, description, imageUrl, stock, sku }
 
   if (!userId || !products || !Array.isArray(products)) {
     return res
@@ -79,14 +65,11 @@ export async function updateCatalog(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Delete existing catalog for this store (or update)
     await supabase
       .from("product_catalog")
       .delete()
       .eq("user_id", userId)
       .eq("store_id", storeId);
-
-    // Insert new products
     const catalogItems = products.map((product) => ({
       product_id: crypto.randomUUID(),
       user_id: userId,
@@ -122,9 +105,6 @@ export async function updateCatalog(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Generate AI Reply ====================
-// POST /api/features/whatsapp/generate-reply
-
 export async function generateReply(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -139,24 +119,13 @@ export async function generateReply(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Fetch product catalog for context
     const { data: products } = await supabase
       .from("product_catalog")
       .select("*")
       .eq("user_id", userId)
       .eq("store_id", storeId)
       .eq("is_active", true);
-
-    // In production, integrate with AI service (OpenAI, Anthropic, or local LLM)
-    // Example prompt:
-    // "You are a helpful store assistant. Customer asked: {customerMessage}
-    //  Available products: {products}
-    //  Generate a friendly, professional reply in Indonesian."
-
-    // Mock AI reply
     const mockReply = generateMockReply(customerMessage, products || []);
-
-    // Log the interaction
     await supabase.from("chat_logs").insert({
       log_id: crypto.randomUUID(),
       user_id: userId,
@@ -182,8 +151,6 @@ function generateMockReply(
   products: Array<{ name: string; price: string }>
 ): string {
   const lowerMessage = message.toLowerCase();
-
-  // Check for product inquiries
   if (lowerMessage.includes("harga") || lowerMessage.includes("berapa")) {
     if (products.length > 0) {
       const product = products[0];
@@ -193,23 +160,14 @@ function generateMockReply(
     }
     return "Halo! Untuk info harga, bisa sebutkan produk yang mau ditanya?";
   }
-
-  // Check for availability
   if (lowerMessage.includes("ada") || lowerMessage.includes("stok")) {
     return "Alhamdulillah stok masih ada kak. Mau pesan berapa?";
   }
-
-  // Check for ordering
   if (lowerMessage.includes("pesan") || lowerMessage.includes("beli")) {
     return "Siap kak! Untuk pemesanan, bisa langsung chat dengan format:\n\nNama produk: \nJumlah: \nAlamat pengiriman: \n\nNanti saya bantu proses ya!";
   }
-
-  // Default greeting
   return "Halo! Selamat datang di toko kami. Ada yang bisa saya bantu?";
 }
-
-// ==================== Get Chat Logs ====================
-// GET /api/features/whatsapp/logs?userId=xxx&storeId=xxx&limit=50
 
 export async function getChatLogs(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
@@ -265,9 +223,6 @@ export async function getChatLogs(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Save Reply Template ====================
-// POST /api/features/whatsapp/templates
-
 export async function saveTemplate(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -307,9 +262,6 @@ export async function saveTemplate(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
-// ==================== Get Templates ====================
-// GET /api/features/whatsapp/templates?userId=xxx
 
 export async function getTemplates(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {

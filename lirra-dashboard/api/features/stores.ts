@@ -1,8 +1,3 @@
-/**
- * Store Management API
- * Handles multi-store management, role permissions, and store data
- */
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 
@@ -10,9 +5,6 @@ const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 );
-
-// ==================== Create Store ====================
-// POST /api/features/stores/create
 
 export async function createStore(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -27,7 +19,6 @@ export async function createStore(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Check user's plan limits
     const { data: userData } = await supabase
       .from("dashboard_users")
       .select("plan_type")
@@ -37,16 +28,12 @@ export async function createStore(req: VercelRequest, res: VercelResponse) {
     if (!userData) {
       return res.status(404).json({ error: "User not found" });
     }
-
-    // Check existing stores count
     const { data: existingStores } = await supabase
       .from("stores")
       .select("store_id")
       .eq("user_id", userId);
 
     const storeCount = existingStores?.length || 0;
-
-    // Enforce plan limits
     const limits = {
       starter: 1,
       professional: 3,
@@ -62,8 +49,6 @@ export async function createStore(req: VercelRequest, res: VercelResponse) {
         upgradeRequired: true,
       });
     }
-
-    // Create store
     const { data, error } = await supabase
       .from("stores")
       .insert({
@@ -94,9 +79,6 @@ export async function createStore(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
-// ==================== List Stores ====================
-// GET /api/features/stores?userId=xxx
 
 export async function listStores(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
@@ -132,9 +114,6 @@ export async function listStores(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Update Store ====================
-// PUT /api/features/stores/:storeId
-
 export async function updateStore(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "PUT") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -155,7 +134,6 @@ export async function updateStore(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Verify ownership
     const { data: store } = await supabase
       .from("stores")
       .select("user_id")
@@ -165,8 +143,6 @@ export async function updateStore(req: VercelRequest, res: VercelResponse) {
     if (!store || store.user_id !== userId) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-
-    // Update store
     const updateData: Record<string, unknown> = {
       updated_at: new Date().toISOString(),
     };
@@ -198,9 +174,6 @@ export async function updateStore(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Delete Store ====================
-// DELETE /api/features/stores/:storeId
-
 export async function deleteStore(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "DELETE") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -213,7 +186,6 @@ export async function deleteStore(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Verify ownership
     const { data: store } = await supabase
       .from("stores")
       .select("user_id")
@@ -223,8 +195,6 @@ export async function deleteStore(req: VercelRequest, res: VercelResponse) {
     if (!store || store.user_id !== userId) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-
-    // Soft delete (set is_active to false)
     const { error } = await supabase
       .from("stores")
       .update({ is_active: false, deleted_at: new Date().toISOString() })
@@ -245,23 +215,18 @@ export async function deleteStore(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Assign User Role ====================
-// POST /api/features/stores/roles
-
 export async function assignRole(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { storeId, userId, targetUserEmail, role } = req.body;
-  // role: 'owner', 'admin', 'staff', 'viewer'
 
   if (!storeId || !userId || !targetUserEmail || !role) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
-    // Check if user has permission (enterprise only)
     const { data: userData } = await supabase
       .from("dashboard_users")
       .select("plan_type")
@@ -274,8 +239,6 @@ export async function assignRole(req: VercelRequest, res: VercelResponse) {
         upgradeRequired: true,
       });
     }
-
-    // Verify store ownership
     const { data: store } = await supabase
       .from("stores")
       .select("user_id")
@@ -285,8 +248,6 @@ export async function assignRole(req: VercelRequest, res: VercelResponse) {
     if (!store || store.user_id !== userId) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-
-    // Create or update role assignment
     const { data, error } = await supabase
       .from("store_roles")
       .upsert(
@@ -319,9 +280,6 @@ export async function assignRole(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== List Store Roles ====================
-// GET /api/features/stores/roles?storeId=xxx
-
 export async function listStoreRoles(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -334,7 +292,6 @@ export async function listStoreRoles(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Verify access
     const { data: store } = await supabase
       .from("stores")
       .select("user_id")
@@ -344,8 +301,6 @@ export async function listStoreRoles(req: VercelRequest, res: VercelResponse) {
     if (!store || store.user_id !== userId) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-
-    // Get all roles for this store
     const { data, error } = await supabase
       .from("store_roles")
       .select("*")
@@ -367,9 +322,6 @@ export async function listStoreRoles(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Get Store Statistics ====================
-// GET /api/features/stores/stats?storeId=xxx
-
 export async function getStoreStats(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -382,7 +334,6 @@ export async function getStoreStats(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Get transaction stats
     const { data: transactions } = await supabase
       .from("transactions")
       .select("*")
@@ -397,15 +348,11 @@ export async function getStoreStats(req: VercelRequest, res: VercelResponse) {
       transactions
         ?.filter((t) => t.type === "expense")
         .reduce((sum, t) => sum + parseFloat(t.amount), 0) || 0;
-
-    // Get product count
     const { data: products } = await supabase
       .from("product_catalog")
       .select("product_id")
       .eq("store_id", storeId)
       .eq("is_active", true);
-
-    // Get photo jobs count
     const { data: photoJobs } = await supabase
       .from("photo_jobs")
       .select("job_id")

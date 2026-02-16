@@ -115,8 +115,7 @@ const PaymentSuccess = () => {
   return (
     <div className="min-h-screen bg-light-gray flex items-center justify-center p-6">
       <div className="max-w-2xl w-full bg-white rounded-xl shadow-md p-8">
-        {/* Success Icon */}
-        <div className="text-center mb-8">
+<div className="text-center mb-8">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Check className="text-green-600" size={40} />
           </div>
@@ -127,9 +126,7 @@ const PaymentSuccess = () => {
             Thank you for your purchase. Here's your credential key.
           </p>
         </div>
-
-        {/* Credential Key Display */}
-        <div className="bg-gradient-to-r from-primary to-secondary rounded-xl p-8 mb-8">
+<div className="bg-gradient-to-r from-primary to-secondary rounded-xl p-8 mb-8">
           <h2 className="text-white text-lg font-semibold mb-4 text-center">
             Your Credential Key
           </h2>
@@ -155,9 +152,7 @@ const PaymentSuccess = () => {
             )}
           </button>
         </div>
-
-        {/* Plan Details */}
-        <div className="bg-light-gray rounded-lg p-6 mb-8">
+<div className="bg-light-gray rounded-lg p-6 mb-8">
           <h3 className="font-semibold text-gray-900 mb-4">Plan Details</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -186,9 +181,7 @@ const PaymentSuccess = () => {
             </div>
           </div>
         </div>
-
-        {/* Next Steps */}
-        <div className="border-t border-gray pt-8">
+<div className="border-t border-gray pt-8">
           <h3 className="font-semibold text-gray-900 mb-4">Next Steps</h3>
           <ol className="space-y-3 mb-6">
             <li className="flex items-start gap-3">
@@ -244,9 +237,7 @@ const PaymentSuccess = () => {
             </Link>
           </div>
         </div>
-
-        {/* Warning */}
-        <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+<div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
           <div className="flex gap-3">
             <AlertTriangle
               className="text-yellow-600 flex-shrink-0 mt-0.5"

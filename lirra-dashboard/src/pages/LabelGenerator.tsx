@@ -96,8 +96,6 @@ const LabelGenerator = () => {
   const [backgroundPattern, setBackgroundPattern] = useState<
     "none" | "dots" | "grid" | "diagonal"
   >("none");
-
-  // New advanced customization options
   const [gradientType, setGradientType] = useState<
     "linear" | "radial" | "none"
   >("linear");
@@ -376,7 +374,6 @@ const LabelGenerator = () => {
 
     try {
       if (format === "png") {
-        // Dynamic import html2canvas
         const html2canvas = (await import("html2canvas")).default;
 
         const canvas = await html2canvas(labelRef.current, {
@@ -401,7 +398,6 @@ const LabelGenerator = () => {
           }
         });
       } else if (format === "pdf") {
-        // Dynamic import html2canvas and jsPDF
         const html2canvas = (await import("html2canvas")).default;
         const { jsPDF } = await import("jspdf");
 
@@ -424,7 +420,6 @@ const LabelGenerator = () => {
         pdf.save(`${formData.productName || "label"}-${Date.now()}.pdf`);
         showSuccessToast("PDF exported successfully!");
       } else if (format === "svg") {
-        // Create SVG string
         const svgString = createSVGExport();
         const blob = new Blob([svgString], { type: "image/svg+xml" });
         const url = URL.createObjectURL(blob);
@@ -623,8 +618,7 @@ const LabelGenerator = () => {
   return (
     <div className="p-6 ml-0 md:ml-64">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
+<div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -652,9 +646,7 @@ const LabelGenerator = () => {
             </div>
           </div>
         </div>
-
-        {/* Quick Actions Bar */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+<div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
           <div className="flex flex-wrap gap-3 items-center">
             <button
               onClick={handleAutoFillSample}
@@ -710,10 +702,8 @@ const LabelGenerator = () => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Configuration Panel */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Template Selection */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="lg:col-span-1 space-y-6">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <Tag className="mr-2" size={18} />
                 Select Template
@@ -739,9 +729,7 @@ const LabelGenerator = () => {
                 ))}
               </div>
             </div>
-
-            {/* Logo Upload */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <ImageIcon className="mr-2" size={18} />
                 Brand Logo
@@ -781,9 +769,7 @@ const LabelGenerator = () => {
                   </p>
                 </button>
               )}
-
-              {/* Logo Size Control */}
-              <div className="mt-4">
+<div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Logo Size: {logoSize}px
                 </label>
@@ -796,9 +782,7 @@ const LabelGenerator = () => {
                   className="w-full"
                 />
               </div>
-
-              {/* Logo Shape */}
-              <div className="mt-4">
+<div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Logo Shape
                 </label>
@@ -846,9 +830,7 @@ const LabelGenerator = () => {
                 </div>
               </div>
             </div>
-
-            {/* Color Customization - FULL COLOR PICKER */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <button
                 onClick={() => setShowCustomization(!showCustomization)}
                 className="w-full flex items-center justify-between text-left mb-4"
@@ -1058,9 +1040,7 @@ const LabelGenerator = () => {
                 </div>
               )}
             </div>
-
-            {/* Typography */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <Type className="mr-2" size={18} />
                 Typography
@@ -1188,9 +1168,7 @@ const LabelGenerator = () => {
                 </div>
               </div>
             </div>
-
-            {/* Label Dimensions */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <Ruler className="mr-2" size={18} />
                 Label Dimensions
@@ -1274,9 +1252,7 @@ const LabelGenerator = () => {
                 </div>
               </div>
             </div>
-
-            {/* Theme Presets */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <Sparkles className="mr-2" size={18} />
                 Quick Theme Presets
@@ -1332,9 +1308,7 @@ const LabelGenerator = () => {
                 </button>
               </div>
             </div>
-
-            {/* Advanced Typography */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <Type className="mr-2" size={18} />
                 Advanced Typography
@@ -1448,9 +1422,7 @@ const LabelGenerator = () => {
                 )}
               </div>
             </div>
-
-            {/* Gradient & Effects */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <Paintbrush className="mr-2" size={18} />
                 Gradient & Effects
@@ -1554,16 +1526,13 @@ const LabelGenerator = () => {
                 </div>
               </div>
             </div>
-
-            {/* Decorative Elements */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <Star className="mr-2" size={18} />
                 Decorative Elements
               </h3>
               <div className="space-y-4">
-                {/* Badge */}
-                <div className="p-4 bg-gray-50 rounded-lg">
+<div className="p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-medium text-gray-700">
                       Corner Badge
@@ -1608,9 +1577,7 @@ const LabelGenerator = () => {
                     </div>
                   )}
                 </div>
-
-                {/* Ribbon */}
-                <div className="p-4 bg-gray-50 rounded-lg">
+<div className="p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-medium text-gray-700">
                       Corner Ribbon
@@ -1655,9 +1622,7 @@ const LabelGenerator = () => {
                     </div>
                   )}
                 </div>
-
-                {/* Watermark */}
-                <div className="p-4 bg-gray-50 rounded-lg">
+<div className="p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-medium text-gray-700">
                       Watermark
@@ -1697,9 +1662,7 @@ const LabelGenerator = () => {
                     </div>
                   )}
                 </div>
-
-                {/* QR Code */}
-                <div className="p-4 bg-gray-50 rounded-lg">
+<div className="p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-medium text-gray-700">
                       QR Code
@@ -1760,9 +1723,7 @@ const LabelGenerator = () => {
                 </div>
               </div>
             </div>
-
-            {/* Logo Management */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <ImageIcon className="mr-2" size={18} />
                 Logo & Images
@@ -1881,9 +1842,7 @@ const LabelGenerator = () => {
                 </div>
               </div>
             </div>
-
-            {/* Basic Fields */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
                 <FileText className="mr-2" size={18} />
                 Label Information
@@ -1963,9 +1922,7 @@ const LabelGenerator = () => {
                 </div>
               </div>
             </div>
-
-            {/* Advanced Fields Toggle */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <button
                 onClick={() => setShowAdvanced(!showAdvanced)}
                 className="w-full flex items-center justify-between text-left"
@@ -2058,9 +2015,7 @@ const LabelGenerator = () => {
               )}
             </div>
           </div>
-
-          {/* Live Preview */}
-          <div className="lg:col-span-2">
+<div className="lg:col-span-2">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-6">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="font-semibold text-gray-900 flex items-center">
@@ -2077,9 +2032,7 @@ const LabelGenerator = () => {
                   </button>
                 </div>
               </div>
-
-              {/* Preview Canvas */}
-              <div
+<div
                 className={`border-2 border-gray-300 rounded-lg p-8 bg-gray-50 overflow-auto`}
                 style={{
                   backgroundImage: gridLines
@@ -2115,8 +2068,7 @@ const LabelGenerator = () => {
                           : "none",
                     }}
                   >
-                    {/* Badge Overlay */}
-                    {badgeEnabled && (
+{badgeEnabled && (
                       <div
                         style={{
                           position: "absolute",
@@ -2144,9 +2096,7 @@ const LabelGenerator = () => {
                         </div>
                       </div>
                     )}
-
-                    {/* Ribbon Overlay */}
-                    {ribbonEnabled && (
+{ribbonEnabled && (
                       <div
                         style={{
                           position: "absolute",
@@ -2185,9 +2135,7 @@ const LabelGenerator = () => {
                         </div>
                       </div>
                     )}
-
-                    {/* QR Code Overlay */}
-                    {qrCodeEnabled && qrCodeData && (
+{qrCodeEnabled && qrCodeData && (
                       <div
                         style={{
                           position: "absolute",
@@ -2228,9 +2176,7 @@ const LabelGenerator = () => {
                         </div>
                       </div>
                     )}
-
-                    {/* Watermark */}
-                    {watermarkEnabled && (
+{watermarkEnabled && (
                       <div
                         style={{
                           position: "absolute",
@@ -2258,9 +2204,7 @@ const LabelGenerator = () => {
                         </div>
                       </div>
                     )}
-
-                    {/* Header Section */}
-                    <div
+<div
                       style={{
                         ...(backgroundPattern !== "none"
                           ? { backgroundImage: getBackgroundPattern() }
@@ -2312,9 +2256,7 @@ const LabelGenerator = () => {
                         </p>
                       )}
                     </div>
-
-                    {/* Content Section */}
-                    <div
+<div
                       style={{
                         padding: `${paddingSize}px`,
                         backgroundColor: contentBackground,
@@ -2325,8 +2267,7 @@ const LabelGenerator = () => {
                         height: "100%",
                       }}
                     >
-                      {/* Main Content - Takes flexible space */}
-                      <div
+<div
                         style={{
                           flex: 1,
                           display: "flex",
@@ -2359,9 +2300,7 @@ const LabelGenerator = () => {
                             </p>
                           </div>
                         )}
-
-                        {/* Two Column Layout for Weight and Date */}
-                        {(formData.netWeight || formData.bestBefore) && (
+{(formData.netWeight || formData.bestBefore) && (
                           <div
                             style={{
                               display: "grid",
@@ -2510,9 +2449,7 @@ const LabelGenerator = () => {
                           </div>
                         )}
                       </div>
-
-                      {/* Bottom Section - Always at bottom */}
-                      <div
+<div
                         style={{
                           marginTop: "auto",
                           paddingTop: "0.75rem",
@@ -2596,9 +2533,7 @@ const LabelGenerator = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Export Options */}
-              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+<div className="mt-6 p-4 bg-gray-50 rounded-lg">
                 <p className="text-sm font-medium text-gray-700 mb-3">
                   Export Format
                 </p>
@@ -2617,9 +2552,7 @@ const LabelGenerator = () => {
             </div>
           </div>
         </div>
-
-        {/* History Modal */}
-        {showHistory && (
+{showHistory && (
           <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-2xl w-full p-6 max-h-[80vh] overflow-auto">
               <div className="flex justify-between items-center mb-6">
@@ -2679,9 +2612,7 @@ const LabelGenerator = () => {
             </div>
           </div>
         )}
-
-        {/* Barcode Generator Modal */}
-        {showBarcodeModal && (
+{showBarcodeModal && (
           <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-md w-full p-6">
               <div className="flex justify-between items-center mb-6">
@@ -2715,9 +2646,7 @@ const LabelGenerator = () => {
             </div>
           </div>
         )}
-
-        {/* Toast Notification */}
-        {showToast && (
+{showToast && (
           <div className="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 z-50 animate-slide-up">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -2735,6 +2664,3 @@ const LabelGenerator = () => {
 };
 
 export default LabelGenerator;
-
-
-

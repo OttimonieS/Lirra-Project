@@ -154,7 +154,3 @@ tsconfigRootDir: import.meta.dirname,
 },
 },
 ])
-
-```
-
-```

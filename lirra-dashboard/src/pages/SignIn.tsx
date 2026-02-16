@@ -30,7 +30,6 @@ const SignIn = () => {
       }
 
       if (data.user) {
-        // Redirect to dashboard
         navigate("/dashboard");
       }
     } catch {
@@ -42,16 +41,13 @@ const SignIn = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center p-6">
       <div className="w-full max-w-md">
-        {/* Logo/Header */}
-        <div className="text-center mb-8">
+<div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">
             Lirra Dashboard
           </h1>
           <p className="text-white/80">Welcome back! Sign in to continue</p>
         </div>
-
-        {/* Sign In Form */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+<div className="bg-white rounded-2xl shadow-2xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Sign In</h2>
 
           {error && (

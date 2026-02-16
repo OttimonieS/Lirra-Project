@@ -1,8 +1,3 @@
-/**
- * Label Generator API
- * Handles label template generation, presets, and PDF/PNG export
- */
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 
@@ -10,9 +5,6 @@ const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 );
-
-// ==================== Generate Label ====================
-// POST /api/features/labels/generate
 
 export async function generateLabel(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -24,7 +16,7 @@ export async function generateLabel(req: VercelRequest, res: VercelResponse) {
     storeId,
     templateId,
     labelData,
-    format, // 'pdf' or 'png'
+    format,
   } = req.body;
 
   if (!userId || !labelData) {
@@ -32,10 +24,6 @@ export async function generateLabel(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // In production, integrate with label generation service
-    // Use libraries like: pdf-lib, jsPDF, canvas, puppeteer
-
-    // Mock label generation
     const mockLabel = {
       labelId: crypto.randomUUID(),
       format: format || "pdf",
@@ -46,8 +34,6 @@ export async function generateLabel(req: VercelRequest, res: VercelResponse) {
       createdAt: new Date().toISOString(),
       labelData: labelData,
     };
-
-    // Save to database
     const { error } = await supabase
       .from("generated_labels")
       .insert({
@@ -77,9 +63,6 @@ export async function generateLabel(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Get Label Templates ====================
-// GET /api/features/labels/templates
-
 export async function getTemplates(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -106,9 +89,6 @@ export async function getTemplates(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
-// ==================== Save Preset ====================
-// POST /api/features/labels/presets
 
 export async function savePreset(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -150,9 +130,6 @@ export async function savePreset(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== List User Presets ====================
-// GET /api/features/labels/presets?userId=xxx
-
 export async function listPresets(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -186,22 +163,18 @@ export async function listPresets(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Export Label ====================
-// POST /api/features/labels/export
-
 export async function exportLabel(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { labelId } = req.body; // format: 'pdf' or 'png' - TODO: implement format selection
+  const { labelId } = req.body;
 
   if (!labelId) {
     return res.status(400).json({ error: "labelId is required" });
   }
 
   try {
-    // Fetch label from database
     const { data: label, error } = await supabase
       .from("generated_labels")
       .select("*")
@@ -211,9 +184,6 @@ export async function exportLabel(req: VercelRequest, res: VercelResponse) {
     if (error || !label) {
       return res.status(404).json({ error: "Label not found" });
     }
-
-    // In production, convert to requested format if different
-    // For now, return existing download URL
 
     return res.status(200).json({
       success: true,

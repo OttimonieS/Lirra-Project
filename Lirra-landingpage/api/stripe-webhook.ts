@@ -8,8 +8,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 const supabaseUrl = process.env.VITE_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-// Type for subscription with required fields
 type SubscriptionData = {
   id: string;
   status: string;
@@ -40,15 +38,11 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
           console.error("Missing metadata in checkout session");
           return;
         }
-
-        // Get subscription details
         const subscriptionResponse = await stripe.subscriptions.retrieve(
           session.subscription as string
         );
         const subscription =
           subscriptionResponse as unknown as SubscriptionData;
-
-        // Create subscription record in database
         await supabase.from("subscriptions").insert({
           user_id: userId,
           plan_id: planId,
@@ -66,8 +60,6 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
             ? new Date(subscription.trial_end * 1000).toISOString()
             : null,
         });
-
-        // Update checkout intent
         if (intentId) {
           await supabase
             .from("checkout_intents")
@@ -82,8 +74,6 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
       case "customer.subscription.updated": {
         const subscriptionEvent = event.data.object as Stripe.Subscription;
         const subscription = subscriptionEvent as unknown as SubscriptionData;
-
-        // Update subscription in database
         await supabase
           .from("subscriptions")
           .update({
@@ -112,8 +102,6 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
 
       case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
-
-        // Update subscription status to canceled
         await supabase
           .from("subscriptions")
           .update({
@@ -135,8 +123,6 @@ export const handleStripeWebhook = async (event: Stripe.Event) => {
       case "invoice.payment_failed": {
         const invoice = event.data.object as Stripe.Invoice;
         console.log("Payment failed for invoice:", invoice.id);
-
-        // You might want to send an email notification here
         break;
       }
 

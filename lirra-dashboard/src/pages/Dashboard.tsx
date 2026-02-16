@@ -13,13 +13,10 @@ const Dashboard = () => {
   return (
     <div className="p-6 ml-0 md:ml-64">
       <div className="max-w-7xl mx-auto">
-        {/* Subscription Status */}
-        <div className="mb-6">
+<div className="mb-6">
           <SubscriptionStatus />
         </div>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
@@ -51,8 +48,7 @@ const Dashboard = () => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          {/* Sales Chart */}
-          <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Sales Overview
             </h3>
@@ -70,9 +66,7 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
-
-          {/* Best Sellers */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Best Sellers
             </h3>
@@ -91,9 +85,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
-        {/* Notifications */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Notifications
           </h3>
@@ -124,9 +116,7 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-
-        {/* Quick Actions */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Quick Actions
           </h3>

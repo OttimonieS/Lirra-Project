@@ -1,10 +1,3 @@
-/**
- * Session Validation API
- * POST /api/auth/validate-session
- *
- * Validates user session and returns current plan details
- */
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 import crypto from "crypto";
@@ -21,7 +14,6 @@ interface ValidateSessionRequest {
 
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // CORS headers
   res.setHeader(
     "Access-Control-Allow-Origin",
     process.env.NEXT_PUBLIC_DASHBOARD_URL || "*"
@@ -52,10 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Hash the token
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-
-    // Query token
     const { data: tokenData, error: tokenError } = await supabase
       .from("tokens")
       .select("*")
@@ -69,8 +58,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         message: "Token not found",
       });
     }
-
-    // Check token status
     if (tokenData.status !== "active") {
       return res.status(400).json({
         valid: false,
@@ -78,13 +65,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         message: `Token is ${tokenData.status}`,
       });
     }
-
-    // Check expiration
     const expirationDate = new Date(tokenData.expires_at);
     const now = new Date();
 
     if (expirationDate < now) {
-      // Auto-expire the token
       await supabase
         .from("tokens")
         .update({ status: "expired" })
@@ -96,8 +80,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         message: "Token has expired",
       });
     }
-
-    // Get user's current usage stats (if userId provided)
     const usage = {
       storesUsed: 0,
       photosProcessed: 0,
@@ -105,21 +87,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     if (userId) {
-      // Query user's stores
       const { data: stores } = await supabase
         .from("stores")
         .select("store_id")
         .eq("user_id", userId);
       usage.storesUsed = stores?.length || 0;
-
-      // Query user's photo processing count
       const { data: photoJobs } = await supabase
         .from("photo_jobs")
         .select("job_id")
         .eq("user_id", userId);
       usage.photosProcessed = photoJobs?.length || 0;
-
-      // Get API calls count from usage_tracking table
       const { data: apiUsage } = await supabase
         .from("usage_tracking")
         .select("api_calls")
@@ -127,8 +104,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         .single();
       usage.apiCallsUsed = apiUsage?.api_calls || 0;
     }
-
-    // Return valid session with plan details
     return res.status(200).json({
       valid: true,
       planDetails: {

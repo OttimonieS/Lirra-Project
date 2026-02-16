@@ -1,4 +1,3 @@
-// Types
 export interface Template {
   id: string;
   name: string;
@@ -23,8 +22,6 @@ export interface ExportFormat {
   id: string;
   label: string;
 }
-
-// Data
 export const templates: Template[] = [
   {
     id: "modern",

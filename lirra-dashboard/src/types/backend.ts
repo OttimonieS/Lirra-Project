@@ -1,18 +1,9 @@
-/**
- * Backend Type Definitions for Lirra Token-Based Access System
- * Based on the architecture specifications and class diagram
- */
-
-// ==================== User Types ====================
-
 export interface User {
   userId: string;
   email: string;
   createdAt: string;
   tokens?: Token[];
 }
-
-// ==================== Token Types ====================
 
 export type PlanType = "starter" | "professional" | "enterprise";
 
@@ -21,7 +12,7 @@ export type TokenStatus = "active" | "expired" | "revoked" | "used";
 export interface Token {
   tokenCode: string;
   planType: PlanType;
-  expirationDate: string; // ISO date string
+  expirationDate: string;
   status: TokenStatus;
   createdAt: string;
   userId?: string;
@@ -46,8 +37,6 @@ export interface TokenMetadata {
   };
 }
 
-// ==================== Plan Types ====================
-
 export interface Plan {
   id: string;
   name: string;
@@ -63,8 +52,6 @@ export interface Plan {
     users: number | "unlimited";
   };
 }
-
-// ==================== Feature Access Types ====================
 
 export interface FeatureAccess {
   featureName: string;
@@ -83,23 +70,17 @@ export type FeatureName =
   | "custom-training"
   | "team-roles";
 
-// ==================== Payment Types ====================
-
 export interface PaymentRecord {
   recordId: string;
   userId: string;
-  amount: number; // in USD
-  currency: string; // "USD"
+  amount: number;
+  currency: string;
   status: "pending" | "completed" | "failed" | "refunded";
   date: string;
   stripeSessionId?: string;
   planType: PlanType;
   billingCycle: "monthly" | "yearly";
 }
-
-// ==================== API Request/Response Types ====================
-
-// Token Validation
 export interface ValidateTokenRequest {
   token: string;
 }
@@ -119,7 +100,6 @@ export interface ValidateTokenResponse {
   error?: string;
 }
 
-// Checkout Creation
 export interface CreateCheckoutRequest {
   planId: PlanType;
   email: string;
@@ -131,7 +111,6 @@ export interface CreateCheckoutResponse {
   sessionId: string;
 }
 
-// Token Generation
 export interface GenerateTokenRequest {
   orderId: string;
   planId: PlanType;
@@ -145,7 +124,6 @@ export interface GenerateTokenResponse {
   planType: PlanType;
 }
 
-// Webhook Payload
 export interface StripeWebhookPayload {
   event: string;
   data: {
@@ -162,8 +140,6 @@ export interface StripeWebhookPayload {
   };
 }
 
-// ==================== Session Types ====================
-
 export interface UserSession {
   token: string;
   planType: PlanType;
@@ -178,8 +154,6 @@ export interface UserSession {
   };
   sessionStarted: string;
 }
-
-// ==================== Error Types ====================
 
 export interface ApiError {
   error: string;

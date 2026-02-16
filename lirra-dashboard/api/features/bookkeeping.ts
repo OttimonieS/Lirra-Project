@@ -1,8 +1,3 @@
-/**
- * Auto Bookkeeping API
- * Handles transaction management, receipt scanning, and financial reports
- */
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 
@@ -10,9 +5,6 @@ const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 );
-
-// ==================== Insert Transaction ====================
-// POST /api/features/bookkeeping/transactions
 
 export async function insertTransaction(
   req: VercelRequest,
@@ -43,7 +35,7 @@ export async function insertTransaction(
       .insert({
         user_id: userId,
         store_id: storeId,
-        type: type, // 'income' or 'expense'
+        type: type,
         amount: amount,
         category: category,
         description: description,
@@ -68,9 +60,6 @@ export async function insertTransaction(
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
-// ==================== List Transactions ====================
-// GET /api/features/bookkeeping/transactions?userId=xxx&storeId=xxx&startDate=xxx&endDate=xxx
 
 export async function listTransactions(
   req: VercelRequest,
@@ -127,10 +116,6 @@ export async function listTransactions(
   }
 }
 
-// ==================== Scan Receipt ====================
-// POST /api/features/bookkeeping/scan-receipt
-// Uses OCR to extract text from receipt image
-
 export async function scanReceipt(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -143,8 +128,6 @@ export async function scanReceipt(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // In production, integrate with OCR service (Google Vision, AWS Textract, etc.)
-    // For now, return mock data
 
     const mockExtractedData = {
       merchantName: "Toko Sumber Rejeki",
@@ -169,22 +152,18 @@ export async function scanReceipt(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Generate Reports ====================
-// GET /api/features/bookkeeping/reports?userId=xxx&storeId=xxx&period=xxx
-
 export async function generateReports(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { userId, storeId, period } = req.query; // period: 'daily', 'weekly', 'monthly', 'yearly'
+  const { userId, storeId, period } = req.query;
 
   if (!userId) {
     return res.status(400).json({ error: "userId is required" });
   }
 
   try {
-    // Calculate date range based on period
     const now = new Date();
     let startDate: Date;
 
@@ -202,10 +181,8 @@ export async function generateReports(req: VercelRequest, res: VercelResponse) {
         startDate = new Date(now.setFullYear(now.getFullYear() - 1));
         break;
       default:
-        startDate = new Date(now.setMonth(now.getMonth() - 1)); // Default to monthly
+        startDate = new Date(now.setMonth(now.getMonth() - 1));
     }
-
-    // Fetch transactions
     let query = supabase
       .from("transactions")
       .select("*")
@@ -222,8 +199,6 @@ export async function generateReports(req: VercelRequest, res: VercelResponse) {
       console.error("Generate reports error:", error);
       return res.status(500).json({ error: "Failed to generate report" });
     }
-
-    // Calculate totals
     const income = data
       .filter((t) => t.type === "income")
       .reduce((sum, t) => sum + parseFloat(t.amount), 0);
@@ -233,9 +208,6 @@ export async function generateReports(req: VercelRequest, res: VercelResponse) {
       .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
     const cashFlow = income - expenses;
-
-    // Group by category
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byCategory = data.reduce((acc: any, t: any) => {
       const cat = t.category || "Uncategorized";
       if (!acc[cat]) {
@@ -267,9 +239,6 @@ export async function generateReports(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
-// ==================== Calculate Cash Flow ====================
-// GET /api/features/bookkeeping/cashflow?userId=xxx&storeId=xxx&months=6
 
 export async function calculateCashFlow(
   req: VercelRequest,
@@ -308,16 +277,12 @@ export async function calculateCashFlow(
       console.error("Calculate cashflow error:", error);
       return res.status(500).json({ error: "Failed to calculate cash flow" });
     }
-
-    // Group by month
     const monthlyData: Record<
       string,
       { income: number; expenses: number; net: number }
     > = {};
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.forEach((t: any) => {
-      const month = new Date(t.transaction_date).toISOString().substring(0, 7); // YYYY-MM
+      const month = new Date(t.transaction_date).toISOString().substring(0, 7);
 
       if (!monthlyData[month]) {
         monthlyData[month] = { income: 0, expenses: 0, net: 0 };
@@ -332,8 +297,6 @@ export async function calculateCashFlow(
       monthlyData[month].net =
         monthlyData[month].income - monthlyData[month].expenses;
     });
-
-    // Convert to array for charting
     const cashFlowData = Object.entries(monthlyData).map(([month, values]) => ({
       month,
       ...values,

@@ -14,11 +14,10 @@ import {
 } from "lucide-react";
 
 interface SidebarProps {
-  activeTab: string;
   setActiveTab: (tab: string) => void;
 }
 
-const Sidebar = ({ activeTab, setActiveTab }: SidebarProps) => {
+const Sidebar = ({ setActiveTab }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,16 +65,13 @@ const Sidebar = ({ activeTab, setActiveTab }: SidebarProps) => {
 
   return (
     <>
-      {/* Mobile Toggle */}
-      <button
+<button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed top-4 left-4 z-50 md:hidden bg-primary text-white p-2 rounded-lg"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
-
-      {/* Sidebar */}
-      <aside
+<aside
         className={`fixed left-0 top-0 h-full bg-gray-900 text-white w-64 transform transition-transform duration-300 ease-in-out z-40 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
@@ -109,9 +105,7 @@ const Sidebar = ({ activeTab, setActiveTab }: SidebarProps) => {
           })}
         </nav>
       </aside>
-
-      {/* Overlay for mobile */}
-      {isOpen && (
+{isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
           onClick={() => setIsOpen(false)}

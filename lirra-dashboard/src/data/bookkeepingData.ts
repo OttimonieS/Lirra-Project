@@ -1,6 +1,4 @@
 import type { Transaction } from "../types";
-
-// Data
 export const initialTransactions: Transaction[] = [
   {
     id: "1",
@@ -9,6 +7,7 @@ export const initialTransactions: Transaction[] = [
     amount: 450,
     category: "Sales",
     description: "Online order #1234",
+    currency: ""
   },
   {
     id: "2",
@@ -17,6 +16,7 @@ export const initialTransactions: Transaction[] = [
     amount: 120,
     category: "Supplies",
     description: "Ingredients purchase",
+    currency: ""
   },
   {
     id: "3",
@@ -25,6 +25,7 @@ export const initialTransactions: Transaction[] = [
     amount: 780,
     category: "Sales",
     description: "Tokopedia sales",
+    currency: ""
   },
   {
     id: "4",
@@ -33,6 +34,7 @@ export const initialTransactions: Transaction[] = [
     amount: 200,
     category: "Utilities",
     description: "Electricity bill",
+    currency: ""
   },
   {
     id: "5",
@@ -41,5 +43,6 @@ export const initialTransactions: Transaction[] = [
     amount: 1200,
     category: "Sales",
     description: "Shopee sales",
+    currency: ""
   },
 ];

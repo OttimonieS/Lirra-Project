@@ -1,8 +1,3 @@
-/**
- * Admin Management API
- * Admin-only endpoints for token management, user management, and system administration
- */
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 import crypto from "crypto";
@@ -11,15 +6,10 @@ const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 );
-
-// Admin API key verification middleware
 function verifyAdminKey(req: VercelRequest): boolean {
   const apiKey = req.headers["x-api-key"] as string;
   return apiKey === process.env.ADMIN_API_KEY;
 }
-
-// ==================== Deactivate Token ====================
-// POST /api/admin/tokens/deactivate
 
 export async function deactivateToken(req: VercelRequest, res: VercelResponse) {
   if (!verifyAdminKey(req)) {
@@ -37,10 +27,7 @@ export async function deactivateToken(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Hash the token
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-
-    // Update token status
     const { data, error } = await supabase
       .from("tokens")
       .update({
@@ -55,8 +42,6 @@ export async function deactivateToken(req: VercelRequest, res: VercelResponse) {
     if (error || !data) {
       return res.status(404).json({ error: "Token not found" });
     }
-
-    // Log admin action
     await supabase.from("admin_logs").insert({
       log_id: crypto.randomUUID(),
       action: "deactivate_token",
@@ -80,9 +65,6 @@ export async function deactivateToken(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== View All Users ====================
-// GET /api/admin/users?page=1&limit=50&planType=xxx&status=xxx
-
 export async function viewAllUsers(req: VercelRequest, res: VercelResponse) {
   if (!verifyAdminKey(req)) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -99,7 +81,6 @@ export async function viewAllUsers(req: VercelRequest, res: VercelResponse) {
   const offset = (pageNum - 1) * limitNum;
 
   try {
-    // Build query
     let query = supabase
       .from("dashboard_users")
       .select("*, tokens!inner(plan_type, status, expires_at)", {
@@ -143,9 +124,6 @@ export async function viewAllUsers(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==================== Get User Details ====================
-// GET /api/admin/users/:userId
-
 export async function getUserDetails(req: VercelRequest, res: VercelResponse) {
   if (!verifyAdminKey(req)) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -162,7 +140,6 @@ export async function getUserDetails(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Get user data
     const { data: user, error: userError } = await supabase
       .from("dashboard_users")
       .select("*")
@@ -172,14 +149,10 @@ export async function getUserDetails(req: VercelRequest, res: VercelResponse) {
     if (userError || !user) {
       return res.status(404).json({ error: "User not found" });
     }
-
-    // Get user's stores
     const { data: stores } = await supabase
       .from("stores")
       .select("*")
       .eq("user_id", userId);
-
-    // Get usage stats
     const { data: transactions } = await supabase
       .from("transactions")
       .select("amount, type")
@@ -217,9 +190,6 @@ export async function getUserDetails(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
-// ==================== Manage Enterprise Clients ====================
-// GET /api/admin/enterprise?page=1&limit=50
 
 export async function manageEnterpriseClients(
   req: VercelRequest,
@@ -272,9 +242,6 @@ export async function manageEnterpriseClients(
   }
 }
 
-// ==================== System Statistics ====================
-// GET /api/admin/stats
-
 export async function getSystemStats(req: VercelRequest, res: VercelResponse) {
   if (!verifyAdminKey(req)) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -285,7 +252,6 @@ export async function getSystemStats(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Get user counts by plan
     const { data: users } = await supabase
       .from("dashboard_users")
       .select("plan_type");
@@ -297,8 +263,6 @@ export async function getSystemStats(req: VercelRequest, res: VercelResponse) {
       enterprise:
         users?.filter((u) => u.plan_type === "enterprise").length || 0,
     };
-
-    // Get token stats
     const { data: tokens } = await supabase.from("tokens").select("status");
 
     const tokenStats = {
@@ -306,8 +270,6 @@ export async function getSystemStats(req: VercelRequest, res: VercelResponse) {
       expired: tokens?.filter((t) => t.status === "expired").length || 0,
       revoked: tokens?.filter((t) => t.status === "revoked").length || 0,
     };
-
-    // Get payment stats
     const { data: payments } = await supabase
       .from("payment_records")
       .select("amount, status");
@@ -316,8 +278,6 @@ export async function getSystemStats(req: VercelRequest, res: VercelResponse) {
       payments
         ?.filter((p) => p.status === "completed")
         .reduce((sum, p) => sum + parseFloat(p.amount), 0) || 0;
-
-    // Get feature usage
     const { data: photoJobs } = await supabase
       .from("photo_jobs")
       .select("job_id");
@@ -353,9 +313,6 @@ export async function getSystemStats(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
-// ==================== Extend Token Expiration ====================
-// POST /api/admin/tokens/extend
 
 export async function extendTokenExpiration(
   req: VercelRequest,
@@ -397,15 +354,13 @@ export async function extendTokenExpiration(
       .from("tokens")
       .update({
         expires_at: newExpiry.toISOString(),
-        status: "active", // Reactivate if expired
+        status: "active",
       })
       .eq("token_hash", hashedToken);
 
     if (error) {
       return res.status(500).json({ error: "Failed to extend token" });
     }
-
-    // Log admin action
     await supabase.from("admin_logs").insert({
       log_id: crypto.randomUUID(),
       action: "extend_token",

@@ -154,5 +154,3 @@ This automatically starts all 4 services in separate terminal windows:
 - **Authentication:** Supabase Auth
 - **Payments:** Stripe
 - **Icons:** Lucide React
-
-

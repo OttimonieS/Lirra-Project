@@ -6,7 +6,6 @@ import {
   workingHours,
   quickReplyTemplates,
   connectionStatus,
-  autoReplyStats,
 } from "../data/whatsappData";
 
 const WhatsAppAI = () => {
@@ -23,10 +22,8 @@ const WhatsAppAI = () => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Configuration Panel */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Connection Status */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="lg:col-span-1 space-y-6">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4">
                 WhatsApp Connection
               </h3>
@@ -74,9 +71,7 @@ const WhatsAppAI = () => {
                 Reconnect
               </button>
             </div>
-
-            {/* Working Hours */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4">
                 <Clock size={18} className="inline mr-2" />
                 Working Hours
@@ -100,9 +95,7 @@ const WhatsAppAI = () => {
                 Edit Hours
               </button>
             </div>
-
-            {/* Quick Reply Templates */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4">
                 Quick Reply Templates
               </h3>
@@ -121,9 +114,7 @@ const WhatsAppAI = () => {
                 + Add Template
               </button>
             </div>
-
-            {/* AI Settings */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-4">AI Settings</h3>
               <div className="space-y-4">
                 <label className="flex items-center justify-between">
@@ -143,9 +134,7 @@ const WhatsAppAI = () => {
               </div>
             </div>
           </div>
-
-          {/* Conversation History */}
-          <div className="lg:col-span-2">
+<div className="lg:col-span-2">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="font-semibold text-gray-900">
@@ -218,9 +207,7 @@ const WhatsAppAI = () => {
                   </div>
                 ))}
               </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t">
+<div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t">
                 <div className="text-center">
                   <p className="text-2xl font-bold text-primary">156</p>
                   <p className="text-sm text-gray-600">Total Chats</p>

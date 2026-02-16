@@ -372,9 +372,7 @@ const Bookkeeping = () => {
             Track your income and expenses automatically
           </p>
         </div>
-
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-green-50 border-2 border-green-200 p-6 rounded-xl">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm font-medium text-green-700">Total Income</p>
@@ -424,11 +422,8 @@ const Bookkeeping = () => {
             </p>
           </div>
         </div>
-
-        {/* Insights Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Top Categories */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Top Expense Categories
             </h3>
@@ -460,9 +455,7 @@ const Bookkeeping = () => {
               )}
             </div>
           </div>
-
-          {/* Recent Transactions */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Recent Transactions
             </h3>
@@ -494,9 +487,7 @@ const Bookkeeping = () => {
             </div>
           </div>
         </div>
-
-        {/* Actions Bar */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+<div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
           <div className="flex flex-col md:flex-row gap-4 justify-between">
             <div className="flex gap-3">
               <button
@@ -530,9 +521,7 @@ const Bookkeeping = () => {
               </button>
             </div>
           </div>
-
-          {/* Date Range Filter */}
-          {showDateFilter && (
+{showDateFilter && (
             <div className="mt-4 p-4 bg-gray-50 rounded-lg">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -571,12 +560,9 @@ const Bookkeeping = () => {
             </div>
           )}
         </div>
-
-        {/* Search and Filters */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+<div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Search */}
-            <div className="flex-1 relative">
+<div className="flex-1 relative">
               <Search
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                 size={20}
@@ -597,9 +583,7 @@ const Bookkeeping = () => {
                 </button>
               )}
             </div>
-
-            {/* Type Filter */}
-            <div className="flex items-center gap-2">
+<div className="flex items-center gap-2">
               <Filter size={20} className="text-gray-600" />
               <div className="flex gap-2">
                 <button
@@ -636,9 +620,7 @@ const Bookkeeping = () => {
             </div>
           </div>
         </div>
-
-        {/* Transactions Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+<div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           {filteredTransactions.length === 0 ? (
             <div className="p-12 text-center">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -773,9 +755,7 @@ const Bookkeeping = () => {
             </div>
           )}
         </div>
-
-        {/* Add Transaction Modal */}
-        {showAddModal && (
+{showAddModal && (
           <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl shadow-2xl border border-gray-200 max-w-md w-full p-6">
               <div className="flex justify-between items-center mb-6">
@@ -976,9 +956,7 @@ const Bookkeeping = () => {
             </div>
           </div>
         )}
-
-        {/* Toast Notification */}
-        {showToast && (
+{showToast && (
           <div className="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 z-50 animate-slide-up">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path

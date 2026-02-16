@@ -45,7 +45,6 @@ const SetupPassword = () => {
     setLoading(true);
 
     try {
-      // Create Supabase auth user with email and password
       const { data, error: signUpError } = await auth.signUp(
         email,
         formData.password
@@ -62,8 +61,6 @@ const SetupPassword = () => {
         setLoading(false);
         return;
       }
-
-      // Create profile with auth user ID
       const response = await fetch("/api/auth/link-profile", {
         method: "POST",
         headers: {
@@ -82,8 +79,6 @@ const SetupPassword = () => {
       if (!response.ok) {
         throw new Error("Failed to link profile");
       }
-
-      // Success! Redirect to dashboard
       setTimeout(() => {
         navigate("/dashboard");
       }, 1500);
@@ -98,8 +93,7 @@ const SetupPassword = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center px-6 py-12">
       <div className="max-w-md w-full">
-        {/* Header */}
-        <div className="text-center mb-8">
+<div className="text-center mb-8">
           <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="text-primary" size={32} />
           </div>
@@ -110,9 +104,7 @@ const SetupPassword = () => {
             Secure your account to access the dashboard
           </p>
         </div>
-
-        {/* Setup Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+<div className="bg-white rounded-2xl shadow-2xl p-8">
           <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
             <CheckCircle
               className="text-green-600 flex-shrink-0 mt-0.5"
@@ -208,9 +200,7 @@ const SetupPassword = () => {
               {loading ? "Creating Account..." : "Create Account & Continue"}
             </button>
           </form>
-
-          {/* Password Requirements */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
+<div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-sm font-medium text-gray-700 mb-2">
               Password Requirements:
             </p>
@@ -226,9 +216,7 @@ const SetupPassword = () => {
             </ul>
           </div>
         </div>
-
-        {/* Help Text */}
-        <p className="text-center text-white/60 text-sm mt-6">
+<p className="text-center text-white/60 text-sm mt-6">
           You'll use this password to sign in to the dashboard
         </p>
       </div>

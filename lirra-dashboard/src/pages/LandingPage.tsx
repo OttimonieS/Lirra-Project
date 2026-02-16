@@ -76,8 +76,7 @@ const LandingPage = ({ onGetStarted }: { onGetStarted: () => void }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Hero Section */}
-      <section className="container mx-auto px-6 pt-20 pb-16">
+<section className="container mx-auto px-6 pt-20 pb-16">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
             All-in-One Automation Hub for{" "}
@@ -101,9 +100,7 @@ const LandingPage = ({ onGetStarted }: { onGetStarted: () => void }) => {
               Watch Demo
             </button>
           </div>
-
-          {/* Simple Animation Preview */}
-          <div className="relative max-w-3xl mx-auto">
+<div className="relative max-w-3xl mx-auto">
             <div className="bg-white rounded-xl shadow-2xl p-6">
               <div className="aspect-video bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center">
                 <div className="text-white text-center">
@@ -120,9 +117,7 @@ const LandingPage = ({ onGetStarted }: { onGetStarted: () => void }) => {
           </div>
         </div>
       </section>
-
-      {/* Key Advantages */}
-      <section className="bg-white py-16">
+<section className="bg-white py-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -164,9 +159,7 @@ const LandingPage = ({ onGetStarted }: { onGetStarted: () => void }) => {
           </div>
         </div>
       </section>
-
-      {/* Features Section */}
-      <section className="py-16 bg-gray-50">
+<section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -198,9 +191,7 @@ const LandingPage = ({ onGetStarted }: { onGetStarted: () => void }) => {
           </div>
         </div>
       </section>
-
-      {/* Testimonials */}
-      <section className="py-16 bg-white">
+<section className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -239,9 +230,7 @@ const LandingPage = ({ onGetStarted }: { onGetStarted: () => void }) => {
           </div>
         </div>
       </section>
-
-      {/* Final CTA */}
-      <section className="py-16 bg-primary text-white">
+<section className="py-16 bg-primary text-white">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Ready to Automate Your Business?

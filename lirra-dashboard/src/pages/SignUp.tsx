@@ -42,7 +42,6 @@ const SignUp = () => {
       }
 
       if (data.user) {
-        // Redirect to token redemption page with email
         navigate(`/redeem-key?email=${encodeURIComponent(formData.email)}`);
       }
     } catch {
@@ -54,16 +53,13 @@ const SignUp = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center p-6">
       <div className="w-full max-w-md">
-        {/* Logo/Header */}
-        <div className="text-center mb-8">
+<div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">
             Lirra Dashboard
           </h1>
           <p className="text-white/80">Create your account to get started</p>
         </div>
-
-        {/* Sign Up Form */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+<div className="bg-white rounded-2xl shadow-2xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Sign Up</h2>
 
           {error && (

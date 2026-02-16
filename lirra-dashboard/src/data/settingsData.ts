@@ -1,7 +1,5 @@
 import { Building, User, Link, Download, Bell, CreditCard } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-
-// Types
 export interface SettingsNavItem {
   id: string;
   label: string;
@@ -35,8 +33,6 @@ export interface BusinessType {
   id: string;
   label: string;
 }
-
-// Data
 export const settingsNavItems: SettingsNavItem[] = [
   { id: "business", label: "Business Profile", icon: Building, isActive: true },
   { id: "staff", label: "Staff & Roles", icon: User, isActive: false },

@@ -8,8 +8,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Auth helpers
 export const auth = {
   signUp: async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signUp({
@@ -43,14 +41,11 @@ export const auth = {
   },
 
   onAuthStateChange: (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     callback: (event: string, session: any) => void
   ) => {
     return supabase.auth.onAuthStateChange(callback);
   },
 };
-
-// Profile helpers
 export const profile = {
   get: async (userId: string) => {
     const { data, error } = await supabase
@@ -87,7 +82,6 @@ export const profile = {
   },
 };
 
-// Transaction helpers
 export const transactions = {
   getAll: async (userId: string) => {
     const { data, error } = await supabase
@@ -122,7 +116,6 @@ export const transactions = {
   },
 };
 
-// Custom categories helpers
 export const customCategories = {
   get: async (userId: string) => {
     const { data, error } = await supabase

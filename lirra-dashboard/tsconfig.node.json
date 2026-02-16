@@ -8,14 +8,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": false,
 
-    /* Bundler mode */
+    
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
 
-    /* Linting */
+    
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -24,5 +24,5 @@
     "noUncheckedSideEffectImports": true,
     // "forceConsistentCasingInFileNames": false
   },
-  "include": ["vite.config.ts", "api/**/*", "server.ts"]
+  "include": ["vite.config.ts", "api*", "server.ts"]
 }

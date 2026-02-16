@@ -1,4 +1,3 @@
-// Types
 export interface WeeklyData {
   day: string;
   sales: number;
@@ -23,8 +22,6 @@ export interface KeyMetric {
   change: string;
   trend: "up" | "down";
 }
-
-// Data
 export const weeklyData: WeeklyData[] = [
   { day: "Mon", sales: 1200, expenses: 400 },
   { day: "Tue", sales: 1500, expenses: 350 },

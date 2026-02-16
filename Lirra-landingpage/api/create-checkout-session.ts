@@ -1,7 +1,5 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-
-// Initialize Stripe (backend only - uses secret key)
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-11-17.clover",
 });
@@ -21,8 +19,6 @@ export const createCheckoutSession = async (
 ) => {
   try {
     const { planName, userId, intentId } = req;
-
-    // Get plan details
     const { data: plan, error: planError } = await supabase
       .from("plans")
       .select("*")
@@ -32,8 +28,6 @@ export const createCheckoutSession = async (
     if (planError || !plan || !plan.stripe_price_id) {
       throw new Error("Plan not found or not configured for Stripe");
     }
-
-    // Get user profile
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("*")
@@ -43,8 +37,6 @@ export const createCheckoutSession = async (
     if (profileError || !profile) {
       throw new Error("User profile not found");
     }
-
-    // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       customer_email: profile.email,
       line_items: [
@@ -66,11 +58,9 @@ export const createCheckoutSession = async (
           user_id: userId,
           plan_id: plan.id,
         },
-        trial_period_days: 14, // 14-day trial
+        trial_period_days: 14,
       },
     });
-
-    // Update checkout intent with session ID
     await supabase
       .from("checkout_intents")
       .update({

@@ -5,8 +5,6 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-
-// Types
 export interface Stat {
   label: string;
   value: string;
@@ -29,8 +27,6 @@ export interface Notification {
 export interface QuickAction {
   label: string;
 }
-
-// Data
 export const stats: Stat[] = [
   {
     label: "Today's Sales",
@@ -82,5 +78,4 @@ export const quickActions: QuickAction[] = [
 ];
 
 export const salesChartData = [40, 65, 45, 80, 55, 75, 90];
-
 export const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
